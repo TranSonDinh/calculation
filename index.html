@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Máy tính cầm tay</title>
+	<style type="text/css">
+		body {
+			font-family: 'Source Sans Pro', sans-serif;
+			font-size: 16px;
+		}
+		#calculater {
+			width: 500px;
+			position: absolute;
+			top : 30%;
+			left: 35%;
+			box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
+		}
+		#result {
+			margin : 15px auto;
+			height: 30px;
+			width: 90%;
+			border: 1px solid #ddd;
+			text-align: right;
+			line-height: 30px;
+			padding-right: 10px;
+			overflow: hidden;
+		}
+		#result:hover {
+			border: 1px solid #bbb;
+  			box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.2);
+		}
+		.button { width: 92%; margin : 0 auto; }
+		.operators {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+		}
+		.operators div {
+			width: 80px;
+			padding: 10px;
+			background-color: #ddd;
+			border: #bbb;
+			border-radius: 1px;
+			margin : 10px 3px;
+			text-align: center;
+			cursor: pointer;
+		}
+		.operators div:hover {
+			box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
+  			border-color: #aaa;
+		}
+		.number {
+			width: 76%;
+		}
+		.subNumber div {
+			display: inline-block;
+			width: 80px;
+			padding: 10px;
+			border: 1px solid #ddd;
+			border-radius: 1px;
+			text-align: center;
+			margin: 10px 10px 10px 2px;
+			cursor: pointer;
+			background-color: #f9f9f9;
+  			transition: border-color .2s ease-in-out, background-color .2s, box-shadow .2s;
+		}
+		.subNumber div:hover {
+			background-color: #f1f1f1;
+			border: 1px solid #bbb;
+		}
+		.subNumber div:active {
+			font-weight: bold;
+			color: #3079ED;
+		}
+		.result {
+			float: right;
+			width: 100px;
+			height: 229px;
+			margin-top: -238px;
+			background-color: #4d90fe;
+			color: #fff;
+			line-height: 229px;
+			font-size: 1.3em;
+			text-align: center;
+			cursor: pointer;
+			display: inline-block;
+ 			border: 1px solid #3079ED;
+ 			border-radius: 1px;
+ 			transition: all .2s ease-in-out;
+		}
+		.result:hover {
+			background-color: #307CF9;
+			border-color: #1857BB;
+  			box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.2);
+		}
+	</style>
+</head>
+<body>
+	<div id="calculater">
+		<div id="result"></div>
+		<div class="button">
+			<div class="operators">
+				<div>+</div>
+				<div>-</div>
+				<div>&times;</div>
+				<div>&divide;</div>
+			</div>
+			<div class="number">
+				<div class="subNumber">
+					<div>7</div>
+					<div>8</div>
+					<div>9</div>
+				</div>
+				<div class="subNumber">
+					<div>4</div>
+					<div>5</div>
+					<div>6</div>
+				</div>
+				<div class="subNumber">
+					<div>1</div>
+					<div>2</div>
+					<div>3</div>
+				</div>
+				<div class="subNumber">
+					<div>0</div>
+					<div>.</div>
+					<div id="clear">C</div>
+				</div>
+			</div>
+			<div class="result" id="kq">
+				=
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		var result = document.getElementById('result'), 
+ 			 	number = document.querySelectorAll('.subNumber div'), 
+  				operator = document.querySelectorAll('.operators div'), 
+ 				kq = document.getElementById('kq'), 
+  				clear = document.getElementById('clear');
+  				result.innerHTML = "";
+  				var them = "";
+  				for(i = 0 ; i < number.length -2 ; i++){
+  					number[i].onclick = function(e){
+  						result.innerHTML += e.target.innerHTML;
+  					}
+  				}
+  				number[number.length -2].onclick = function(e){
+  					var current = result.innerHTML;
+  					var lastChart = current[current.length - 1];
+  					if(lastChart !== undefined){
+  						if(lastChart === "+" || lastChart === "-" || lastChart === "×" || lastChart === "÷" || lastChart === ".")
+  							{
+  								result.innerHTML =  current.substring(0,current.length-1) +  e.target.innerHTML;
+  							}else
+  							result.innerHTML =  current.substring(0,current.length) +  e.target.innerHTML;
+  					}
+  				}
+  				for(i = 0 ; i < operator.length ; i++){
+  						operator[i].onclick = function(e){
+  							var current = result.innerHTML;
+  							var lastChart = current[current.length - 1];
+  							if(lastChart !== undefined){
+	  							if(lastChart === "+" || lastChart === "-" || lastChart === "×" || lastChart === "÷" || lastChart === ".")
+	  							{
+	  								result.innerHTML =  current.substring(0,current.length-1) +  e.target.innerHTML;
+	  							}else
+	  							result.innerHTML =  current.substring(0,current.length) +  e.target.innerHTML;
+  							}
+  					}
+  				}
+  				clear.onclick = function() {
+  					result.innerHTML = "";
+  				}
+  				kq.onclick = function(){
+  					var chuoi = result.innerHTML;
+  					var phepTinh = chuoi.replace(/[0-9]|\./g, "").split("");
+  					var so = chuoi.replace(/\-|\×|\+|\÷/g, " ").split(" ");
+  					console.log(so);
+  					console.log(phepTinh);
+  					if(phepTinh!==""){
+	  					while(phepTinh.indexOf("×") !== -1){
+	  						var nm = phepTinh.indexOf("×");
+	  						so[nm] = parseFloat(so[nm]) * parseFloat(so[nm+1]);
+	  						so.splice(nm+1,1);
+	  						phepTinh.splice(nm,1);
+	  					}
+	  					while(phepTinh.indexOf("÷") !== -1){
+	  						var nm = phepTinh.indexOf("÷");
+	  						so[nm] = parseFloat(so[nm]) / parseFloat(so[nm+1]);
+	  						so.splice(nm+1,1);
+	  						phepTinh.splice(nm,1);
+	  					}
+	  					while(phepTinh.indexOf("+") !== -1){
+	  						var nm = phepTinh.indexOf("+");
+	  						so[nm] = parseFloat(so[nm]) + parseFloat(so[nm+1]);
+	  						so.splice(nm+1,1);
+	  						phepTinh.splice(nm,1);
+	  					}
+	  					while(phepTinh.indexOf("-") !== -1){
+	  						var nm = phepTinh.indexOf("-");
+	  						so[nm] = parseFloat(so[nm]) - parseFloat(so[nm+1]);
+	  						so.splice(nm+1,1);
+	  						phepTinh.splice(nm,1);
+	  					}
+	  					result.innerHTML = Math.round(so * 100) / 100;
+  					}
+  				}
+  		
+	</script>
+</body>
+</html>
